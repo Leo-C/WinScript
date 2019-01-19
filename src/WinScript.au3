@@ -1,9 +1,10 @@
 ; ===============================================================
 ; WinScript: a GUI to launch commands and batch files in Windows
 ;
-; Version: 0.95
+; Version: 0.96
 ; Author: Leonardo Cocco
-; Last Edit: 25/11/2018
+; Creation : 25/11/2018
+; Last Edit: 19/01/2019
 ; ===============================================================
 ; ---------------------------------------------------------------------------------------------
 ; Instructions:
@@ -118,12 +119,14 @@ Func Main($cfg)
 				$txt = GUICtrlRead($idListbox)
 				$cmd = $cmds.Item($txt) ;with placeholders '%n'
 				
-				;Interpolate parameters
-				$cmd = SetParameters($cmd, $params) ;substitute placeholders
-				
-				;Execute Command
-				ConsoleWrite($cmd & @CRLF) ;for debug purposes
-				Run($cmd, "", @SW_HIDE)
+				If StringStripWS($cmd, $STR_STRIPSPACES) <> "" Then
+					;Interpolate parameters
+					$cmd = SetParameters($cmd, $params) ;substitute placeholders
+					
+					;Execute Command
+					ConsoleWrite($cmd & @CRLF) ;for debug purposes
+					Run($cmd, "", @SW_HIDE)
+				EndIf
 		EndSelect
 	WEnd
 EndFunc
